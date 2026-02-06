@@ -11,3 +11,169 @@
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
+Hi Richard :)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Unit Conversions & Logic Tests</title>
+
+  <!-- Jasmine -->
+  <link rel="stylesheet" href="https://unpkg.com/jasmine-core/lib/jasmine-core/jasmine.css">
+  <script src="https://unpkg.com/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+  <script src="https://unpkg.com/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+  <script src="https://unpkg.com/jasmine-core/lib/jasmine-core/boot0.js"></script>
+  <script src="https://unpkg.com/jasmine-core/lib/jasmine-core/boot1.js"></script>
+
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>Visual Output (React)</h1>
+<div id="root"></div>
+
+<script>
+// ================= LOGIC FUNCTIONS =================
+
+// 1. Square feet → acres
+function squareFeetToAcres(sqft) {
+  return sqft / 43560;
+}
+
+// 2. Lawn mowing time
+function mowingTime(width, length, metresPerMinute) {
+  const area = width * length;
+  return area / metresPerMinute;
+}
+
+// 3. Air quality
+function airQuality(aqi) {
+  if (aqi <= 50) return "Good";
+  if (aqi <= 100) return "Moderate";
+  if (aqi <= 150) return "Unhealthy for Sensitive Groups";
+  if (aqi <= 200) return "Unhealthy";
+  if (aqi <= 300) return "Very Unhealthy";
+  return "Hazardous";
+}
+
+// 4. Yee Ha
+function yee_ha(num) {
+  if (num % 3 === 0 && num % 7 === 0) return "Yee Ha";
+  if (num % 3 === 0) return "Yee";
+  if (num % 7 === 0) return "Ha";
+  return "Nada";
+}
+
+// 5. Slope
+function slope(x1, y1, x2, y2) {
+  return (y2 - y1) / (x2 - x1);
+}
+</script>
+
+<!-- ================= JASMINE TESTS ================= -->
+<script>
+describe("Square Feet to Acres", function () {
+  it("converts correctly", function () {
+    expect(squareFeetToAcres(43560)).toBe(1);
+    expect(squareFeetToAcres(87120)).toBe(2);
+    expect(squareFeetToAcres(21780)).toBe(0.5);
+  });
+});
+
+describe("Mowing Time", function () {
+  it("calculates minutes correctly", function () {
+    expect(mowingTime(10, 10, 5)).toBe(20);
+    expect(mowingTime(20, 10, 10)).toBe(20);
+    expect(mowingTime(5, 5, 1)).toBe(25);
+  });
+});
+
+describe("Air Quality", function () {
+  it("returns correct AQI categories", function () {
+    expect(airQuality(25)).toBe("Good");
+    expect(airQuality(75)).toBe("Moderate");
+    expect(airQuality(125)).toBe("Unhealthy for Sensitive Groups");
+    expect(airQuality(175)).toBe("Unhealthy");
+    expect(airQuality(250)).toBe("Very Unhealthy");
+    expect(airQuality(350)).toBe("Hazardous");
+  });
+});
+
+describe("Yee Ha", function () {
+  it("returns correct strings", function () {
+    expect(yee_ha(3)).toBe("Yee");
+    expect(yee_ha(7)).toBe("Ha");
+    expect(yee_ha(21)).toBe("Yee Ha");
+    expect(yee_ha(8)).toBe("Nada");
+  });
+});
+
+describe("Slope", function () {
+  it("calculates slope correctly", function () {
+    expect(slope(0, 0, 1, 1)).toBe(1);
+    expect(slope(0, 0, 2, 4)).toBe(2);
+    expect(slope(1, 2, 3, 6)).toBe(2);
+  });
+});
+</script>
+
+<!-- ================= REACT VISUALS ================= -->
+<script type="text/babel">
+function App() {
+  return (
+    <div>
+      <div className="card">
+        <h3>Square Feet → Acres</h3>
+        <p>43560 sqft = {squareFeetToAcres(43560)} acres</p>
+        <p>87120 sqft = {squareFeetToAcres(87120)} acres</p>
+        <p>21780 sqft = {squareFeetToAcres(21780)} acres</p>
+      </div>
+
+      <div className="card">
+        <h3>Mowing Time</h3>
+        <p>10×10 @ 5 m/min = {mowingTime(10,10,5)} minutes</p>
+        <p>20×10 @ 10 m/min = {mowingTime(20,10,10)} minutes</p>
+        <p>5×5 @ 1 m/min = {mowingTime(5,5,1)} minutes</p>
+      </div>
+
+      <div className="card">
+        <h3>Air Quality</h3>
+        <p>25 → {airQuality(25)}</p>
+        <p>75 → {airQuality(75)}</p>
+        <p>125 → {airQuality(125)}</p>
+        <p>175 → {airQuality(175)}</p>
+        <p>250 → {airQuality(250)}</p>
+        <p>350 → {airQuality(350)}</p>
+      </div>
+
+      <div className="card">
+        <h3>Yee Ha</h3>
+        <p>3 → {yee_ha(3)}</p>
+        <p>7 → {yee_ha(7)}</p>
+        <p>21 → {yee_ha(21)}</p>
+        <p>8 → {yee_ha(8)}</p>
+      </div>
+
+      <div className="card">
+        <h3>Slope</h3>
+        <p>(0,0) → (1,1): {slope(0,0,1,1)}</p>
+        <p>(0,0) → (2,4): {slope(0,0,2,4)}</p>
+        <p>(1,2) → (3,6): {slope(1,2,3,6)}</p>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+</body>
+</html>
